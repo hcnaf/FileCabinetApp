@@ -20,12 +20,16 @@ namespace FileCabinetApp
         {
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
+            new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
         };
 
         private static string[][] helpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
+            new string[] { "stat", "prints the number of records.", "The 'stat' command prints the number of records." },
+            new string[] { "create", "creates record.", "The 'create' command creates record." },
         };
 
         public static void Main(string[] args)
@@ -101,7 +105,7 @@ namespace FileCabinetApp
             Console.WriteLine($"{recordsCount} record(s).");
         }
 
-        private static void Create()
+        private static void Create(string parameters)
         {
             string firstName;
             Console.Write("First name: ");
@@ -115,8 +119,7 @@ namespace FileCabinetApp
             string[] dayMonthYear = Console.ReadLine().Split('/');
             DateTime dateOfBirth = new DateTime(int.Parse(dayMonthYear[2]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[0]));
 
-            fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth);
-            Console.WriteLine($"Record #{fileCabinetService.GetStat()} is created.");
+            Console.WriteLine($"Record #{fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth)} is created");
         }
 
         private static void Exit(string parameters)
