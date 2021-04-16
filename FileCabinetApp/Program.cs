@@ -1,5 +1,7 @@
 ﻿using System;
 
+#pragma warning disable CA1305;
+
 namespace FileCabinetApp
 {
     public static class Program
@@ -97,6 +99,24 @@ namespace FileCabinetApp
         {
             var recordsCount = fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
+        }
+
+        private static void Create()
+        {
+            string firstName;
+            Console.Write("First name: ");
+            firstName = Console.ReadLine();
+
+            string lastName;
+            Console.Write("Last name: ");
+            lastName = Console.ReadLine();
+
+            Console.Write("Date of birth: ");
+            string[] dayMonthYear = Console.ReadLine().Split('/');
+            DateTime dateOfBirth = new DateTime(int.Parse(dayMonthYear[2]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[0]));
+
+            fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth);
+            Console.WriteLine($"Record #{fileCabinetService.GetStat()} is created.");
         }
 
         private static void Exit(string parameters)
