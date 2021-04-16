@@ -1,6 +1,6 @@
 ﻿using System;
 
-#pragma warning disable CA1305;
+#pragma warning disable CA1305
 
 namespace FileCabinetApp
 {
@@ -31,7 +31,7 @@ namespace FileCabinetApp
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
             new string[] { "stat", "prints the number of records.", "The 'stat' command prints the number of records." },
             new string[] { "create", "creates record.", "The 'create' command creates record." },
-            new string[] { "list", "prints all records.", "The 'list' command prints all records."},
+            new string[] { "list", "prints all records.", "The 'list' command prints all records." },
         };
 
         public static void Main(string[] args)
@@ -109,26 +109,33 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            string firstName;
             Console.Write("First name: ");
-            firstName = Console.ReadLine();
+            string firstName = Console.ReadLine();
 
-            string lastName;
             Console.Write("Last name: ");
-            lastName = Console.ReadLine();
+            string lastName = Console.ReadLine();
 
             Console.Write("Date of birth: ");
             string[] dayMonthYear = Console.ReadLine().Split('/');
             DateTime dateOfBirth = new DateTime(int.Parse(dayMonthYear[2]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[0]));
 
-            Console.WriteLine($"Record #{fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth)} is created");
+            Console.Write("Balance: ");
+            decimal balance = decimal.Parse(Console.ReadLine());
+
+            Console.Write("Secure charecter: ");
+            char secureCharecter = Console.ReadLine()[0];
+
+            Console.Write("Secure number: ");
+            short secureNumber = short.Parse(Console.ReadLine());
+
+            Console.WriteLine($"Record #{fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, balance, secureCharecter, secureNumber)} is created");
         }
 
         private static void List(string parameters)
         {
             foreach (var record in fileCabinetService.GetRecords())
             {
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}");
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharecter}{record.SecurityNumber}");
             }
         }
 
