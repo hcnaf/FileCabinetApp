@@ -1,5 +1,7 @@
 ﻿using System;
 
+#pragma warning disable CA1305
+
 namespace FileCabinetApp
 {
     public static class Program
@@ -12,16 +14,24 @@ namespace FileCabinetApp
 
         private static bool isRunning = true;
 
+        private static FileCabinetService fileCabinetService = new FileCabinetService();
+
         private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
         {
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
+            new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
+            new Tuple<string, Action<string>>("list", List),
         };
 
         private static string[][] helpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
+            new string[] { "stat", "prints the number of records.", "The 'stat' command prints the number of records." },
+            new string[] { "create", "creates record.", "The 'create' command creates record." },
+            new string[] { "list", "prints all records.", "The 'list' command prints all records." },
         };
 
         public static void Main(string[] args)
@@ -89,6 +99,44 @@ namespace FileCabinetApp
             }
 
             Console.WriteLine();
+        }
+
+        private static void Stat(string parameters)
+        {
+            var recordsCount = fileCabinetService.GetStat();
+            Console.WriteLine($"{recordsCount} record(s).");
+        }
+
+        private static void Create(string parameters)
+        {
+            Console.Write("First name: ");
+            string firstName = Console.ReadLine();
+
+            Console.Write("Last name: ");
+            string lastName = Console.ReadLine();
+
+            Console.Write("Date of birth: ");
+            string[] dayMonthYear = Console.ReadLine().Split('/');
+            DateTime dateOfBirth = new DateTime(int.Parse(dayMonthYear[2]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[0]));
+
+            Console.Write("Balance: ");
+            decimal balance = decimal.Parse(Console.ReadLine());
+
+            Console.Write("Secure charecter: ");
+            char secureCharecter = Console.ReadLine()[0];
+
+            Console.Write("Secure number: ");
+            short secureNumber = short.Parse(Console.ReadLine());
+
+            Console.WriteLine($"Record #{fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, balance, secureCharecter, secureNumber)} is created");
+        }
+
+        private static void List(string parameters)
+        {
+            foreach (var record in fileCabinetService.GetRecords())
+            {
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharecter}{record.SecurityNumber}");
+            }
         }
 
         private static void Exit(string parameters)
