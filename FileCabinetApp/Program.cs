@@ -1,6 +1,7 @@
 ﻿using System;
 
 #pragma warning disable CA1305
+#pragma warning disable CA2208
 
 namespace FileCabinetApp
 {
@@ -111,24 +112,50 @@ namespace FileCabinetApp
         {
             Console.Write("First name: ");
             string firstName = Console.ReadLine();
+            if (firstName is null)
+            {
+                throw new ArgumentNullException(nameof(firstName));
+            }
+
+            if (firstName.Length < 2 || firstName.Length > 60 || !firstName.Contains(' '))
+            {
+                throw new ArgumentException("Invalid first name.");
+            }
 
             Console.Write("Last name: ");
             string lastName = Console.ReadLine();
+            if (lastName is null)
+            {
+                throw new ArgumentNullException(nameof(lastName));
+            }
+
+            if (lastName.Length < 2 || lastName.Length > 60 || !lastName.Contains(' '))
+            {
+                throw new ArgumentException("Invalid last name.");
+            }
 
             Console.Write("Date of birth: ");
             string[] dayMonthYear = Console.ReadLine().Split('/');
             DateTime dateOfBirth = new DateTime(int.Parse(dayMonthYear[2]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[0]));
+            if (dateOfBirth > DateTime.Now || dateOfBirth < new DateTime(1950, 1, 1))
+            {
+                throw new ArgumentOutOfRangeException(nameof(dateOfBirth));
+            }
 
             Console.Write("Balance: ");
             decimal balance = decimal.Parse(Console.ReadLine());
 
             Console.Write("Secure charecter: ");
-            char secureCharecter = Console.ReadLine()[0];
+            char securityCharecter = Console.ReadLine()[0];
+            if (securityCharecter == '\0')
+            {
+                throw new ArgumentException("Security charecter is empty.");
+            }
 
             Console.Write("Secure number: ");
             short secureNumber = short.Parse(Console.ReadLine());
 
-            Console.WriteLine($"Record #{fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, balance, secureCharecter, secureNumber)} is created");
+            Console.WriteLine($"Record #{fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, balance, securityCharecter, secureNumber)} is created");
         }
 
         private static void List(string parameters)

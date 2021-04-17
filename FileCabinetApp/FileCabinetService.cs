@@ -10,36 +10,6 @@ namespace FileCabinetApp
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, decimal balance, char securityCharecter, short securityNumber)
         {
-            if (firstName is null)
-            {
-                throw new ArgumentNullException(nameof(firstName));
-            }
-
-            if (firstName.Length < 2 || firstName.Length > 60 || !firstName.Contains(' '))
-            {
-                throw new ArgumentException("Invalid first name.");
-            }
-
-            if (lastName is null)
-            {
-                throw new ArgumentNullException(nameof(lastName));
-            }
-
-            if (lastName.Length < 2 || lastName.Length > 60 || !lastName.Contains(' '))
-            {
-                throw new ArgumentException("Invalid last name.");
-            }
-
-            if (dateOfBirth > DateTime.Now || dateOfBirth < new DateTime(1950, 1, 1))
-            {
-                throw new ArgumentOutOfRangeException(nameof(dateOfBirth));
-            }
-
-            if (securityCharecter == '\0')
-            {
-                throw new ArgumentException("Security charecter is empty.");
-            }
-
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
@@ -54,6 +24,21 @@ namespace FileCabinetApp
             this.list.Add(record);
 
             return record.Id;
+        }
+
+        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, decimal balance, char securityCharecter, short securityNumber)
+        {
+            if (id < 1 || id > this.list.Count)
+            {
+                throw new ArgumentException("No such id.")
+            }
+
+            this.list[id - 1].FirstName = firstName;
+            this.list[id - 1].LastName = lastName;
+            this.list[id - 1].DateOfBirth = dateOfBirth;
+            this.list[id - 1].Balance = balance;
+            this.list[id - 1].SecurityCharecter = securityCharecter;
+            this.list[id - 1].SecurityNumber = securityNumber;
         }
 
         public FileCabinetRecord[] GetRecords()
