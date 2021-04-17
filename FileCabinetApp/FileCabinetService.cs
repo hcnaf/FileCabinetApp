@@ -30,7 +30,7 @@ namespace FileCabinetApp
         {
             if (id < 1 || id > this.list.Count)
             {
-                throw new ArgumentException("No such id.")
+                throw new ArgumentException("No such id.");
             }
 
             this.list[id - 1].FirstName = firstName;
