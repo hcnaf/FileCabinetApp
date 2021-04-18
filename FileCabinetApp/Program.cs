@@ -164,6 +164,11 @@ namespace FileCabinetApp
         {
             Console.Write("Id: ");
             int id = int.Parse(Console.ReadLine());
+            if (id < 1 || id > fileCabinetService.GetStat())
+            {
+                Console.WriteLine($"Record #{id} is not found.");
+                return;
+            }
 
             Console.Write("First name: ");
             string firstName = Console.ReadLine();
@@ -211,6 +216,7 @@ namespace FileCabinetApp
             short secureNumber = short.Parse(Console.ReadLine());
 
             fileCabinetService.EditRecord(id, firstName, lastName, dateOfBirth, balance, securityCharecter, secureNumber);
+            Console.WriteLine($"Record #{id} was edited.");
         }
 
         private static void List(string parameters)
