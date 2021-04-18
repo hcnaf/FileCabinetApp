@@ -36,7 +36,7 @@ namespace FileCabinetApp
             new string[] { "create", "creates record.", "The 'create' command creates record." },
             new string[] { "list", "prints all records.", "The 'list' command prints all records." },
             new string[] { "edit", "edits record.", "The 'list' command edits record."},
-            new string[] { "find", "finds record.", "The 'find' command finds record."},
+            new string[] { "find [firstname/lastname/dateofbirth] [value]", "finds record by firstname/lastname/dateofbirth.", "The 'find' command finds record by firstname/lastname/dateofbirth."},
         };
 
         public static void Main(string[] args)
@@ -232,6 +232,26 @@ namespace FileCabinetApp
                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharecter}{record.SecurityNumber}");
                 }
             }
+
+            if (objectType == "lastname")
+            {
+                foreach (var record in fileCabinetService.FindByLastName(objectValue))
+                {
+                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharecter}{record.SecurityNumber}");
+                }
+            }
+
+            if (objectType == "dateofbirth")
+            {
+                string[] dayMonthYear = objectValue.Split('-');
+                DateTime dateOfBirth = new DateTime(int.Parse(dayMonthYear[0]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[2]));
+                foreach (var record in fileCabinetService.FindByDateOfBirth(dateOfBirth))
+                {
+                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharecter}{record.SecurityNumber}");
+                }
+            }
+
+            return;
         }
 
         private static void List(string parameters)

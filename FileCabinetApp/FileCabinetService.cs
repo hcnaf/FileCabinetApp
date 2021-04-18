@@ -50,6 +50,34 @@ namespace FileCabinetApp
             return res.ToArray();
         }
 
+        public FileCabinetRecord[] FindByLastName(string lastName)
+        {
+            List<FileCabinetRecord> res = new List<FileCabinetRecord>();
+            foreach (FileCabinetRecord record in this.list)
+            {
+                if (record.LastName.Equals(lastName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    res.Add(record);
+                }
+            }
+
+            return res.ToArray();
+        }
+
+        public FileCabinetRecord[] FindByDateOfBirth(DateTime dateOfBirth)
+        {
+            List<FileCabinetRecord> res = new List<FileCabinetRecord>();
+            foreach (FileCabinetRecord record in this.list)
+            {
+                if (record.DateOfBirth == dateOfBirth)
+                {
+                    res.Add(record);
+                }
+            }
+
+            return res.ToArray();
+        }
+
         public FileCabinetRecord[] GetRecords()
         {
             return this.list.ToArray();
