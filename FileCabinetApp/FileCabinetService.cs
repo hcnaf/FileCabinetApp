@@ -36,6 +36,20 @@ namespace FileCabinetApp
             this.list[id - 1].SecurityNumber = securityNumber;
         }
 
+        public FileCabinetRecord[] FindByFirstName(string firstName)
+        {
+            List<FileCabinetRecord> res = new List<FileCabinetRecord>();
+            foreach (FileCabinetRecord record in this.list)
+            {
+                if (record.FirstName.Equals(firstName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    res.Add(record);
+                }
+            }
+
+            return res.ToArray();
+        }
+
         public FileCabinetRecord[] GetRecords()
         {
             return this.list.ToArray();
