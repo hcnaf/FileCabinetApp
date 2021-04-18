@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
+#pragma warning disable CA1304
+
 namespace FileCabinetApp
 {
     public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, decimal balance, char securityCharecter, short securityNumber)
         {
@@ -22,6 +25,14 @@ namespace FileCabinetApp
             };
 
             this.list.Add(record);
+            try
+            {
+                this.firstNameDictionary[firstName].Add(record);
+            }
+            catch (KeyNotFoundException)
+            {
+                this.firstNameDictionary.Add(firstName.ToLower(), new List<FileCabinetRecord> { record });
+            }
 
             return record.Id;
         }
@@ -38,16 +49,7 @@ namespace FileCabinetApp
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
-            List<FileCabinetRecord> res = new List<FileCabinetRecord>();
-            foreach (FileCabinetRecord record in this.list)
-            {
-                if (record.FirstName.Equals(firstName, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    res.Add(record);
-                }
-            }
-
-            return res.ToArray();
+            return this.firstNameDictionary[firstName].ToArray();
         }
 
         public FileCabinetRecord[] FindByLastName(string lastName)
