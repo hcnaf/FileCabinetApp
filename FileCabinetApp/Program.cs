@@ -25,6 +25,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("find", Find)
         };
 
         private static string[][] helpMessages = new string[][]
@@ -35,6 +36,7 @@ namespace FileCabinetApp
             new string[] { "create", "creates record.", "The 'create' command creates record." },
             new string[] { "list", "prints all records.", "The 'list' command prints all records." },
             new string[] { "edit", "edits record.", "The 'list' command edits record."},
+            new string[] { "find [firstname/lastname/dateofbirth] [value]", "finds record by firstname/lastname/dateofbirth.", "The 'find' command finds record by firstname/lastname/dateofbirth."},
         };
 
         public static void Main(string[] args)
@@ -217,6 +219,39 @@ namespace FileCabinetApp
 
             fileCabinetService.EditRecord(id, firstName, lastName, dateOfBirth, balance, securityCharecter, secureNumber);
             Console.WriteLine($"Record #{id} was edited.");
+        }
+
+        private static void Find(string parameters)
+        {
+            string objectType = parameters.Split(' ')[0].ToLower();
+            string objectValue = parameters.Split(' ')[1].Trim('\"').ToLower();
+            if (objectType == "firstname")
+            {
+                foreach (var record in fileCabinetService.FindByFirstName(objectValue))
+                {
+                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharecter}{record.SecurityNumber}");
+                }
+            }
+
+            if (objectType == "lastname")
+            {
+                foreach (var record in fileCabinetService.FindByLastName(objectValue))
+                {
+                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharecter}{record.SecurityNumber}");
+                }
+            }
+
+            if (objectType == "dateofbirth")
+            {
+                string[] dayMonthYear = objectValue.Split('-');
+                DateTime dateOfBirth = new DateTime(int.Parse(dayMonthYear[0]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[2]));
+                foreach (var record in fileCabinetService.FindByDateOfBirth(dateOfBirth))
+                {
+                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharecter}{record.SecurityNumber}");
+                }
+            }
+
+            return;
         }
 
         private static void List(string parameters)
