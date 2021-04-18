@@ -10,6 +10,8 @@ namespace FileCabinetApp
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, decimal balance, char securityCharecter, short securityNumber)
         {
@@ -27,11 +29,29 @@ namespace FileCabinetApp
             this.list.Add(record);
             try
             {
-                this.firstNameDictionary[firstName].Add(record);
+                this.firstNameDictionary[firstName.ToLower()].Add(record);
             }
             catch (KeyNotFoundException)
             {
                 this.firstNameDictionary.Add(firstName.ToLower(), new List<FileCabinetRecord> { record });
+            }
+
+            try
+            {
+                this.lastNameDictionary[lastName.ToLower()].Add(record);
+            }
+            catch (KeyNotFoundException)
+            {
+                this.lastNameDictionary.Add(lastName.ToLower(), new List<FileCabinetRecord> { record });
+            }
+
+            try
+            {
+                this.dateOfBirthDictionary[dateOfBirth].Add(record);
+            }
+            catch (KeyNotFoundException)
+            {
+                this.dateOfBirthDictionary.Add(dateOfBirth, new List<FileCabinetRecord> { record });
             }
 
             return record.Id;
@@ -54,30 +74,12 @@ namespace FileCabinetApp
 
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
-            List<FileCabinetRecord> res = new List<FileCabinetRecord>();
-            foreach (FileCabinetRecord record in this.list)
-            {
-                if (record.LastName.Equals(lastName, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    res.Add(record);
-                }
-            }
-
-            return res.ToArray();
+            return this.lastNameDictionary[lastName].ToArray();
         }
 
         public FileCabinetRecord[] FindByDateOfBirth(DateTime dateOfBirth)
         {
-            List<FileCabinetRecord> res = new List<FileCabinetRecord>();
-            foreach (FileCabinetRecord record in this.list)
-            {
-                if (record.DateOfBirth == dateOfBirth)
-                {
-                    res.Add(record);
-                }
-            }
-
-            return res.ToArray();
+            return this.dateOfBirthDictionary[dateOfBirth].ToArray();
         }
 
         public FileCabinetRecord[] GetRecords()
