@@ -10,7 +10,7 @@ namespace FileCabinetApp
     /// Cabinet Service class.
     /// Creating, editing, searching by firstname, lastname, date of birth, returning array of records, number of records.
     /// </summary>
-    public class FileCabinetService
+    public abstract class FileCabinetService
     {
         private static readonly CultureInfo Culture = new CultureInfo("ru-RU");
 
@@ -26,6 +26,7 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
+            this.ValidateParameters(record);
             record.Id = this.list.Count + 1;
             this.list.Add(record);
             try
@@ -65,6 +66,7 @@ namespace FileCabinetApp
         /// <param name="record">Input parameters.</param>
         public void EditRecord(int id, FileCabinetRecord record)
         {
+            this.ValidateParameters(record);
             this.list[id - 1] = record;
         }
 
@@ -115,5 +117,11 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
+
+        /// <summary>
+        /// Validates parameters.
+        /// </summary>
+        /// <param name="record">Parameters to validate.</param>
+        protected abstract void ValidateParameters(FileCabinetRecord record);
     }
 }

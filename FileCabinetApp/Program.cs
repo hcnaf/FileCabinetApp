@@ -28,7 +28,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("find", Find),
         };
 
-        private static readonly FileCabinetService FileCabinetService = new FileCabinetService();
+        private static readonly FileCabinetService FileCabinetService = new FileCabinetCustomService();
 
         private static readonly string[][] HelpMessages = new string[][]
         {
@@ -175,7 +175,7 @@ namespace FileCabinetApp
         {
             foreach (var record in FileCabinetService.GetRecords())
             {
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharacter}{record.SecurityNumber}");
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharacter}{record.SecurityNumber}, {record.PaymentSystem}, {record.Residency}, {record.CountryCode}.");
             }
         }
 
@@ -190,48 +190,43 @@ namespace FileCabinetApp
             var record = new FileCabinetRecord();
             Console.Write("First name: ");
             record.FirstName = Console.ReadLine();
-            if (record.FirstName is null)
-            {
-                throw new ArgumentNullException(nameof(record.FirstName));
-            }
-
-            if (record.FirstName.Length < 2 || record.FirstName.Length > 60 || record.FirstName.Contains(' '))
-            {
-                throw new ArgumentException("Invalid first name.");
-            }
 
             Console.Write("Last name: ");
             record.LastName = Console.ReadLine();
-            if (record.LastName is null)
-            {
-                throw new ArgumentNullException(nameof(record.LastName));
-            }
-
-            if (record.LastName.Length < 2 || record.LastName.Length > 60 || record.LastName.Contains(' '))
-            {
-                throw new ArgumentException("Invalid last name.");
-            }
 
             Console.Write("Date of birth: ");
             string[] dayMonthYear = Console.ReadLine().Split('/');
             record.DateOfBirth = new DateTime(int.Parse(dayMonthYear[2], Culture), int.Parse(dayMonthYear[1], Culture), int.Parse(dayMonthYear[0], Culture));
-            if (record.DateOfBirth > DateTime.Now || record.DateOfBirth < new DateTime(1950, 1, 1))
-            {
-                throw new ArgumentOutOfRangeException(nameof(record.DateOfBirth));
-            }
 
             Console.Write("Balance: ");
             record.Balance = decimal.Parse(Console.ReadLine(), Culture);
 
             Console.Write("Secure charecter: ");
             record.SecurityCharacter = Console.ReadLine()[0];
-            if (record.SecurityCharacter == '\0')
-            {
-                throw new ArgumentException("Security charecter is empty.");
-            }
 
             Console.Write("Secure number: ");
             record.SecurityNumber = short.Parse(Console.ReadLine(), Culture);
+
+            Console.Write("Payment system (Visa/MasterCard): ");
+            record.PaymentSystem = Console.ReadLine();
+
+            Console.Write("Residence (True/False): ");
+            string strResidence = Console.ReadLine();
+            if (strResidence.Equals("true", StringComparison.InvariantCultureIgnoreCase))
+            {
+                record.Residency = true;
+            }
+            else if (strResidence.Equals("false", StringComparison.InvariantCultureIgnoreCase))
+            {
+                record.Residency = false;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid residence.");
+            }
+
+            Console.Write("Country code: ");
+            record.CountryCode = int.Parse(Console.ReadLine(), Culture);
 
             return record;
         }

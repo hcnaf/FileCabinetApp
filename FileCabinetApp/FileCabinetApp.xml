@@ -4,6 +4,28 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.FileCabinetCustomService">
+            <summary>
+            FileCabinetService with custom validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetCustomService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validates custom parameters.
+            </summary>
+            <param name="record">Parameters to validate.</param>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetDefaultService">
+            <summary>
+            FileCabinetService with default validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetDefaultService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validates default parameters.
+            </summary>
+            <param name="record">Parameters to validate.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             Data template.
@@ -65,6 +87,30 @@
             Client's security number.
             </value>
         </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.PaymentSystem">
+            <summary>
+            Gets or sets client's payment system.
+            </summary>
+            <value>
+            Client's payment system(Visa/MasterCard).
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Residency">
+            <summary>
+            Gets or sets a value indicating whether client is resident or not.
+            </summary>
+            <value>
+            Client's residency.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.CountryCode">
+            <summary>
+            Gets or sets country code.
+            </summary>
+            <value>
+            Country code.
+            </value>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetService">
             <summary>
             Cabinet Service class.
@@ -117,6 +163,12 @@
             Returns number of records.
             </summary>
             <returns>number of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validates parameters.
+            </summary>
+            <param name="record">Parameters to validate.</param>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>

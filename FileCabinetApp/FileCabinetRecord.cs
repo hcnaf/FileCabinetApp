@@ -64,5 +64,29 @@ namespace FileCabinetApp
         /// Client's security number.
         /// </value>
         public short SecurityNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets client's payment system.
+        /// </summary>
+        /// <value>
+        /// Client's payment system(Visa/MasterCard).
+        /// </value>
+        public string PaymentSystem { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether client is resident or not.
+        /// </summary>
+        /// <value>
+        /// Client's residency.
+        /// </value>
+        public bool Residency { get; set; }
+
+        /// <summary>
+        /// Gets or sets country code.
+        /// </summary>
+        /// <value>
+        /// Country code.
+        /// </value>
+        public int CountryCode { get; set; }
     }
 }
