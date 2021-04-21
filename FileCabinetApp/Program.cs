@@ -121,9 +121,7 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            DataInput(out var firstName, out var lastName, out var dateOfBirth, out var balance, out var securityCharacter, out var securityNumber);
-
-            Console.WriteLine($"Record #{FileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, balance, securityCharacter, securityNumber)} is created");
+            Console.WriteLine($"Record #{FileCabinetService.CreateRecord(DataInput())} is created");
         }
 
         private static void Edit(string parameters)
@@ -136,9 +134,7 @@ namespace FileCabinetApp
                 return;
             }
 
-            DataInput(out var firstName, out var lastName, out var dateOfBirth, out var balance, out var securityCharacter, out var securityNumber);
-
-            FileCabinetService.EditRecord(id, firstName, lastName, dateOfBirth, balance, securityCharacter, securityNumber);
+            FileCabinetService.EditRecord(id, DataInput());
             Console.WriteLine($"Record #{id} was edited.");
         }
 
@@ -189,52 +185,55 @@ namespace FileCabinetApp
             isRunning = false;
         }
 
-        private static void DataInput(out string firstName, out string lastName, out DateTime dateOfBirth, out decimal balance, out char securityCharacter, out short securityNumber)
+        private static FileCabinetRecord DataInput()
         {
+            var record = new FileCabinetRecord();
             Console.Write("First name: ");
-            firstName = Console.ReadLine();
-            if (firstName is null)
+            record.FirstName = Console.ReadLine();
+            if (record.FirstName is null)
             {
-                throw new ArgumentNullException(nameof(firstName));
+                throw new ArgumentNullException(nameof(record.FirstName));
             }
 
-            if (firstName.Length < 2 || firstName.Length > 60 || firstName.Contains(' '))
+            if (record.FirstName.Length < 2 || record.FirstName.Length > 60 || record.FirstName.Contains(' '))
             {
                 throw new ArgumentException("Invalid first name.");
             }
 
             Console.Write("Last name: ");
-            lastName = Console.ReadLine();
-            if (lastName is null)
+            record.LastName = Console.ReadLine();
+            if (record.LastName is null)
             {
-                throw new ArgumentNullException(nameof(lastName));
+                throw new ArgumentNullException(nameof(record.LastName));
             }
 
-            if (lastName.Length < 2 || lastName.Length > 60 || lastName.Contains(' '))
+            if (record.LastName.Length < 2 || record.LastName.Length > 60 || record.LastName.Contains(' '))
             {
                 throw new ArgumentException("Invalid last name.");
             }
 
             Console.Write("Date of birth: ");
             string[] dayMonthYear = Console.ReadLine().Split('/');
-            dateOfBirth = new DateTime(int.Parse(dayMonthYear[2], Culture), int.Parse(dayMonthYear[1], Culture), int.Parse(dayMonthYear[0], Culture));
-            if (dateOfBirth > DateTime.Now || dateOfBirth < new DateTime(1950, 1, 1))
+            record.DateOfBirth = new DateTime(int.Parse(dayMonthYear[2], Culture), int.Parse(dayMonthYear[1], Culture), int.Parse(dayMonthYear[0], Culture));
+            if (record.DateOfBirth > DateTime.Now || record.DateOfBirth < new DateTime(1950, 1, 1))
             {
-                throw new ArgumentOutOfRangeException(nameof(dateOfBirth));
+                throw new ArgumentOutOfRangeException(nameof(record.DateOfBirth));
             }
 
             Console.Write("Balance: ");
-            balance = decimal.Parse(Console.ReadLine(), Culture);
+            record.Balance = decimal.Parse(Console.ReadLine(), Culture);
 
             Console.Write("Secure charecter: ");
-            securityCharacter = Console.ReadLine()[0];
-            if (securityCharacter == '\0')
+            record.SecurityCharacter = Console.ReadLine()[0];
+            if (record.SecurityCharacter == '\0')
             {
                 throw new ArgumentException("Security charecter is empty.");
             }
 
             Console.Write("Secure number: ");
-            securityNumber = short.Parse(Console.ReadLine(), Culture);
+            record.SecurityNumber = short.Parse(Console.ReadLine(), Culture);
+
+            return record;
         }
     }
 }

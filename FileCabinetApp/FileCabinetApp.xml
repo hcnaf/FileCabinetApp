@@ -71,29 +71,19 @@
             Creating, editing, searching by firstname, lastname, date of birth, returning array of records, number of records.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(System.String,System.String,System.DateTime,System.Decimal,System.Char,System.Int16)">
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Creates record.
             </summary>
-            <param name="firstName">First name.</param>
-            <param name="lastName">Last name.</param>
-            <param name="dateOfBirth">Date of birth.</param>
-            <param name="balance">Balance.</param>
-            <param name="securityCharecter">Security character.</param>
-            <param name="securityNumber">Security number.</param>
+            <param name="record">Input parameters.</param>
             <returns>Id of created record.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,System.String,System.String,System.DateTime,System.Decimal,System.Char,System.Int16)">
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.FileCabinetRecord)">
             <summary>
             Edits record #id.
             </summary>
             <param name="id">Id.</param>
-            <param name="firstName">New first name.</param>
-            <param name="lastName">New last name.</param>
-            <param name="dateOfBirth">New date of birth.</param>
-            <param name="balance">New balance.</param>
-            <param name="securityCharecter">New security character.</param>
-            <param name="securityNumber">New security number.</param>
+            <param name="record">Input parameters.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
             <summary>

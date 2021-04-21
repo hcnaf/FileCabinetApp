@@ -22,52 +22,37 @@ namespace FileCabinetApp
         /// <summary>
         /// Creates record.
         /// </summary>
-        /// <param name="firstName">First name.</param>
-        /// <param name="lastName">Last name.</param>
-        /// <param name="dateOfBirth">Date of birth.</param>
-        /// <param name="balance">Balance.</param>
-        /// <param name="securityCharecter">Security character.</param>
-        /// <param name="securityNumber">Security number.</param>
+        /// <param name="record">Input parameters.</param>
         /// <returns>Id of created record.</returns>
-        public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, decimal balance, char securityCharecter, short securityNumber)
+        public int CreateRecord(FileCabinetRecord record)
         {
-            var record = new FileCabinetRecord
-            {
-                Id = this.list.Count + 1,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Balance = balance,
-                SecurityCharacter = securityCharecter,
-                SecurityNumber = securityNumber,
-            };
-
+            record.Id = this.list.Count + 1;
             this.list.Add(record);
             try
             {
-                this.firstNameDictionary[firstName.ToLower(Culture)].Add(record);
+                this.firstNameDictionary[record.FirstName.ToLower(Culture)].Add(record);
             }
             catch (KeyNotFoundException)
             {
-                this.firstNameDictionary.Add(firstName.ToLower(Culture), new List<FileCabinetRecord> { record });
+                this.firstNameDictionary.Add(record.FirstName.ToLower(Culture), new List<FileCabinetRecord> { record });
             }
 
             try
             {
-                this.lastNameDictionary[lastName.ToLower(Culture)].Add(record);
+                this.lastNameDictionary[record.LastName.ToLower(Culture)].Add(record);
             }
             catch (KeyNotFoundException)
             {
-                this.lastNameDictionary.Add(lastName.ToLower(Culture), new List<FileCabinetRecord> { record });
+                this.lastNameDictionary.Add(record.LastName.ToLower(Culture), new List<FileCabinetRecord> { record });
             }
 
             try
             {
-                this.dateOfBirthDictionary[dateOfBirth].Add(record);
+                this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
             }
             catch (KeyNotFoundException)
             {
-                this.dateOfBirthDictionary.Add(dateOfBirth, new List<FileCabinetRecord> { record });
+                this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
             }
 
             return record.Id;
@@ -77,20 +62,10 @@ namespace FileCabinetApp
         /// Edits record #id.
         /// </summary>
         /// <param name="id">Id.</param>
-        /// <param name="firstName">New first name.</param>
-        /// <param name="lastName">New last name.</param>
-        /// <param name="dateOfBirth">New date of birth.</param>
-        /// <param name="balance">New balance.</param>
-        /// <param name="securityCharecter">New security character.</param>
-        /// <param name="securityNumber">New security number.</param>
-        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, decimal balance, char securityCharecter, short securityNumber)
+        /// <param name="record">Input parameters.</param>
+        public void EditRecord(int id, FileCabinetRecord record)
         {
-            this.list[id - 1].FirstName = firstName;
-            this.list[id - 1].LastName = lastName;
-            this.list[id - 1].DateOfBirth = dateOfBirth;
-            this.list[id - 1].Balance = balance;
-            this.list[id - 1].SecurityCharacter = securityCharecter;
-            this.list[id - 1].SecurityNumber = securityNumber;
+            this.list[id - 1] = record;
         }
 
         /// <summary>
