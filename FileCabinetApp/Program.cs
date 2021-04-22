@@ -28,8 +28,6 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("find", Find),
         };
 
-        private static readonly FileCabinetService FileCabinetService = new FileCabinetCustomService();
-
         private static readonly string[][] HelpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
@@ -41,14 +39,33 @@ namespace FileCabinetApp
             new string[] { "find [firstname/lastname/dateofbirth] [value]", "finds record by firstname/lastname/dateofbirth.", "The 'find' command finds record by firstname/lastname/dateofbirth." },
         };
 
+        private static FileCabinetService fileCabinetService;
+
         private static bool isRunning = true;
 
         /// <summary>
         /// Entry point.
         /// </summary>
-        public static void Main()
+        /// <param name="args">Launch parameters.</param>
+        public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
+#pragma warning disable CA1062 // Main parameters cannot be null.
+            if (args.Length == 0)
+            {
+                fileCabinetService = new FileCabinetDefaultService();
+                Console.WriteLine("Using default validation rules.");
+            }
+            else if (args.Length == 1)
+            {
+
+                StartProgramWithParameters(args[0].Split('='));
+            }
+            else
+            {
+                StartProgramWithParameters(args);
+            }
+
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
@@ -78,6 +95,28 @@ namespace FileCabinetApp
                 }
             }
             while (isRunning);
+        }
+
+        private static void StartProgramWithParameters(string[] args)
+        {
+            if (args[0].Equals("-v", StringComparison.InvariantCultureIgnoreCase) || args[0].Equals("--validation-rules", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (args[1].Equals("custom", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    fileCabinetService = new FileCabinetCustomService();
+                    Console.WriteLine("Using custom validation rules.");
+                }
+                else
+                {
+                    fileCabinetService = new FileCabinetDefaultService();
+                    Console.WriteLine("Using default validation rules.");
+                }
+            }
+            else
+            {
+                fileCabinetService = new FileCabinetDefaultService();
+                Console.WriteLine("Using default validation rules.");
+            }
         }
 
         private static void PrintMissedCommandInfo(string command)
@@ -115,26 +154,26 @@ namespace FileCabinetApp
 
         private static void Stat(string parameters)
         {
-            var recordsCount = FileCabinetService.GetStat();
+            var recordsCount = fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
         }
 
         private static void Create(string parameters)
         {
-            Console.WriteLine($"Record #{FileCabinetService.CreateRecord(DataInput())} is created");
+            Console.WriteLine($"Record #{fileCabinetService.CreateRecord(DataInput())} is created");
         }
 
         private static void Edit(string parameters)
         {
             Console.Write("Id: ");
             int id = int.Parse(Console.ReadLine(), Culture);
-            if (id < 1 || id > FileCabinetService.GetStat())
+            if (id < 1 || id > fileCabinetService.GetStat())
             {
                 Console.WriteLine($"Record #{id} is not found.");
                 return;
             }
 
-            FileCabinetService.EditRecord(id, DataInput());
+            fileCabinetService.EditRecord(id, DataInput());
             Console.WriteLine($"Record #{id} was edited.");
         }
 
@@ -144,7 +183,7 @@ namespace FileCabinetApp
             string objectValue = parameters.Split(' ')[1].Trim('\"').ToLower(Culture);
             if (objectType == "firstname")
             {
-                foreach (var record in FileCabinetService.FindByFirstName(objectValue))
+                foreach (var record in fileCabinetService.FindByFirstName(objectValue))
                 {
                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharacter}{record.SecurityNumber}");
                 }
@@ -152,7 +191,7 @@ namespace FileCabinetApp
 
             if (objectType == "lastname")
             {
-                foreach (var record in FileCabinetService.FindByLastName(objectValue))
+                foreach (var record in fileCabinetService.FindByLastName(objectValue))
                 {
                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharacter}{record.SecurityNumber}");
                 }
@@ -162,7 +201,7 @@ namespace FileCabinetApp
             {
                 string[] dayMonthYear = objectValue.Split('-');
                 DateTime dateOfBirth = new DateTime(int.Parse(dayMonthYear[0], Culture), int.Parse(dayMonthYear[1], Culture), int.Parse(dayMonthYear[2], Culture));
-                foreach (var record in FileCabinetService.FindByDateOfBirth(dateOfBirth))
+                foreach (var record in fileCabinetService.FindByDateOfBirth(dateOfBirth))
                 {
                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharacter}{record.SecurityNumber}");
                 }
@@ -173,7 +212,7 @@ namespace FileCabinetApp
 
         private static void List(string parameters)
         {
-            foreach (var record in FileCabinetService.GetRecords())
+            foreach (var record in fileCabinetService.GetRecords())
             {
                 Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharacter}{record.SecurityNumber}, {record.PaymentSystem}, {record.Residency}, {record.CountryCode}.");
             }

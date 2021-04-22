@@ -175,10 +175,11 @@
             Console app, which manages user data by user commands.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.Program.Main">
+        <member name="M:FileCabinetApp.Program.Main(System.String[])">
             <summary>
             Entry point.
             </summary>
+            <param name="args">Launch parameters.</param>
         </member>
     </members>
 </doc>
