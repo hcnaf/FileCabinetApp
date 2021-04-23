@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Text;
 
 namespace FileCabinetApp
 {
     /// <summary>
-    /// FileCabinetService with default validation.
+    /// Default parameters validator.
     /// </summary>
-    public class FileCabinetDefaultService : FileCabinetService
+    public class DefaultValidator : IRecordValidator
     {
         /// <summary>
         /// Validates default parameters.
         /// </summary>
         /// <param name="record">Parameters to validate.</param>
-        protected override void ValidateParameters(FileCabinetRecord record)
+        public void ValidateParameters(FileCabinetRecord record)
         {
             if (record is null)
             {
@@ -48,6 +48,17 @@ namespace FileCabinetApp
             if (record.SecurityCharacter == '\0')
             {
                 throw new ArgumentException("Security character is empty.");
+            }
+
+            if (!record.PaymentSystem.Equals("Visa", StringComparison.InvariantCultureIgnoreCase) &&
+                !record.PaymentSystem.Equals("MasterCard", StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new ArgumentException("Invalid payment system.");
+            }
+
+            if (record.CountryCode < 0 || record.CountryCode > 999)
+            {
+                throw new ArgumentOutOfRangeException(nameof(record.CountryCode), "Invalid country code.");
             }
         }
     }

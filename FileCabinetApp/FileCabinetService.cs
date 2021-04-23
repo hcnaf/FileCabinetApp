@@ -10,7 +10,7 @@ namespace FileCabinetApp
     /// Cabinet Service class.
     /// Creating, editing, searching by firstname, lastname, date of birth, returning array of records, number of records.
     /// </summary>
-    public abstract class FileCabinetService
+    public class FileCabinetService
     {
         private static readonly CultureInfo Culture = new CultureInfo("ru-RU");
 
@@ -19,6 +19,17 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
+        private readonly IRecordValidator validator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        /// <param name="validator">Default or custom validator.</param>
+        public FileCabinetService(IRecordValidator validator)
+        {
+            this.validator = validator;
+        }
+
         /// <summary>
         /// Creates record.
         /// </summary>
@@ -26,7 +37,7 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
-            this.ValidateParameters(record);
+            this.validator.ValidateParameters(record);
             record.Id = this.list.Count + 1;
             this.list.Add(record);
             try
@@ -66,7 +77,7 @@ namespace FileCabinetApp
         /// <param name="record">Input parameters.</param>
         public void EditRecord(int id, FileCabinetRecord record)
         {
-            this.ValidateParameters(record);
+            this.validator.ValidateParameters(record);
             this.list[id - 1] = record;
         }
 
@@ -117,11 +128,5 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
-
-        /// <summary>
-        /// Validates parameters.
-        /// </summary>
-        /// <param name="record">Parameters to validate.</param>
-        protected abstract void ValidateParameters(FileCabinetRecord record);
     }
 }

@@ -4,23 +4,23 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
-        <member name="T:FileCabinetApp.FileCabinetCustomService">
+        <member name="T:FileCabinetApp.CustomValidator">
             <summary>
-            FileCabinetService with custom validation.
+            Custom parameters validation.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetCustomService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.CustomValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Validates custom parameters.
             </summary>
             <param name="record">Parameters to validate.</param>
         </member>
-        <member name="T:FileCabinetApp.FileCabinetDefaultService">
+        <member name="T:FileCabinetApp.DefaultValidator">
             <summary>
-            FileCabinetService with default validation.
+            Default parameters validator.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetDefaultService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.DefaultValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Validates default parameters.
             </summary>
@@ -117,6 +117,12 @@
             Creating, editing, searching by firstname, lastname, date of birth, returning array of records, number of records.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+            <param name="validator">Default or custom validator.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Creates record.
@@ -164,9 +170,14 @@
             </summary>
             <returns>number of records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="T:FileCabinetApp.IRecordValidator">
             <summary>
-            Validates parameters.
+            Record validator interface.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Parameters validation.
             </summary>
             <param name="record">Parameters to validate.</param>
         </member>
