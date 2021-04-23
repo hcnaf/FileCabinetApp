@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 #pragma warning disable CA1062 // Arguments must be already checked.
@@ -86,9 +87,9 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">First name to find.</param>
         /// <returns>Array of found records.</returns>
-        public FileCabinetRecord[] FindByFirstName(string firstName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            return this.firstNameDictionary[firstName].ToArray();
+            return new ReadOnlyCollection<FileCabinetRecord>(this.firstNameDictionary[firstName]);
         }
 
         /// <summary>
@@ -96,9 +97,9 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">Last name to find.</param>
         /// <returns>Array of found records.</returns>
-        public FileCabinetRecord[] FindByLastName(string lastName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            return this.lastNameDictionary[lastName].ToArray();
+            return new ReadOnlyCollection<FileCabinetRecord>(this.lastNameDictionary[lastName]);
         }
 
         /// <summary>
@@ -106,18 +107,18 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">Date of birth to find.</param>
         /// <returns>Array of found records.</returns>
-        public FileCabinetRecord[] FindByDateOfBirth(DateTime dateOfBirth)
+        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
-            return this.dateOfBirthDictionary[dateOfBirth].ToArray();
+            return new ReadOnlyCollection<FileCabinetRecord>(this.dateOfBirthDictionary[dateOfBirth].ToArray());
         }
 
         /// <summary>
         /// Returns all records.
         /// </summary>
         /// <returns>Array of all records.</returns>
-        public FileCabinetRecord[] GetRecords()
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            return this.list.ToArray();
+            return new ReadOnlyCollection<FileCabinetRecord>(this.list.ToArray());
         }
 
         /// <summary>
