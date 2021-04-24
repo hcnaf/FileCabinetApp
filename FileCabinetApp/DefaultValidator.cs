@@ -50,6 +50,11 @@ namespace FileCabinetApp
                 throw new ArgumentException("Security character is empty.");
             }
 
+            if (record.PaymentSystem is null)
+            {
+                throw new ArgumentNullException(nameof(record.PaymentSystem), "Payment System is null.");
+            }
+
             if (!record.PaymentSystem.Equals("Visa", StringComparison.InvariantCultureIgnoreCase) &&
                 !record.PaymentSystem.Equals("MasterCard", StringComparison.InvariantCultureIgnoreCase))
             {

@@ -11,7 +11,7 @@ namespace FileCabinetApp
     /// Cabinet Service class.
     /// Creating, editing, searching by firstname, lastname, date of birth, returning array of records, number of records.
     /// </summary>
-    public class FileCabinetService
+    public class FileCabinetService : IFileCabinetService
     {
         private static readonly CultureInfo Culture = new CultureInfo("ru-RU");
 
