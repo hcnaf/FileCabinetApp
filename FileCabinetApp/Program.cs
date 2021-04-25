@@ -238,7 +238,6 @@ namespace FileCabinetApp
                 new Func<string, Tuple<bool, string>>(LastNameValidator));
 
             Console.Write("Date of birth: ");
-            string[] dayMonthYear = Console.ReadLine().Split('/');
             record.DateOfBirth = ReadInput(
                 new Func<string, Tuple<bool, string, DateTime>>(DateConverter),
                 new Func<DateTime, Tuple<bool, string>>(DateOfBirthValidator));
@@ -349,10 +348,34 @@ namespace FileCabinetApp
         private static Tuple<bool, string, DateTime> DateConverter(string date)
         {
             string[] dayMonthYear = date.Split('/');
+            if (!int.TryParse(dayMonthYear[0], out int day))
+            {
+                return new Tuple<bool, string, DateTime>(
+                    false,
+                    "Invalid day.",
+                    DateTime.MinValue);
+            }
+
+            if (!int.TryParse(dayMonthYear[1], out int month))
+            {
+                return new Tuple<bool, string, DateTime>(
+                    false,
+                    "Invalid month.",
+                    DateTime.MinValue);
+            }
+
+            if (!int.TryParse(dayMonthYear[2], out int year))
+            {
+                return new Tuple<bool, string, DateTime>(
+                    false,
+                    "Invalid year.",
+                    DateTime.MinValue);
+            }
+
             return new Tuple<bool, string, DateTime>(
                 true,
                 string.Empty,
-                new DateTime(int.Parse(dayMonthYear[2], Culture), int.Parse(dayMonthYear[1], Culture), int.Parse(dayMonthYear[0], Culture)));
+                new DateTime(year, month, day));
         }
 
         private static Tuple<bool, string> DateOfBirthValidator(DateTime dateOfBirth)
@@ -369,10 +392,10 @@ namespace FileCabinetApp
         {
             if (ch.Length < 1)
             {
-                return new Tuple<bool, string, char>(false, "Security character is empty.", ch[0]);
+                return new Tuple<bool, string, char>(false, "Security character is empty.", '\0');
             }
 
-            return new Tuple<bool, string, char>(false, string.Empty, '\0');
+            return new Tuple<bool, string, char>(true, string.Empty, ch[0]);
         }
 
         private static Tuple<bool, string> SecurityCharecterValidator(char securityCharecter)
