@@ -4,6 +4,26 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.CustomDataInput">
+            <summary>
+            Custom DataInput.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CustomDataInput.DataInput">
+            <summary>
+            Data input method.
+            </summary>
+            <returns>Converted and validated parameter.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CustomDataInput.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
+            <summary>
+            Reads string, converts to T type and validates converted parameter.
+            </summary>
+            <typeparam name="T">Parameter type.</typeparam>
+            <param name="converter">Converter delegate method.</param>
+            <param name="validator">Validator delegate method.</param>
+            <returns>Converted value.</returns>
+        </member>
         <member name="T:FileCabinetApp.CustomValidator">
             <summary>
             Custom parameters validation.
@@ -14,6 +34,26 @@
             Validates custom parameters.
             </summary>
             <param name="record">Parameters to validate.</param>
+        </member>
+        <member name="T:FileCabinetApp.DefaultDataInput">
+            <summary>
+            Default data input.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.DefaultDataInput.DataInput">
+            <summary>
+            Data input method.
+            </summary>
+            <returns>Converted and validated parameter.</returns>
+        </member>
+        <member name="M:FileCabinetApp.DefaultDataInput.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
+            <summary>
+            Reads string, converts to T type and validates converted parameter.
+            </summary>
+            <typeparam name="T">Parameter type.</typeparam>
+            <param name="converter">Converter delegate method.</param>
+            <param name="validator">Validator delegate method.</param>
+            <returns>Converted value.</returns>
         </member>
         <member name="T:FileCabinetApp.DefaultValidator">
             <summary>
@@ -169,6 +209,17 @@
             Returns number of records.
             </summary>
             <returns>number of records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.IDataInput">
+            <summary>
+            Data input.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.IDataInput.DataInput">
+            <summary>
+            Data input method.
+            </summary>
+            <returns>Converted and validated parameter.</returns>
         </member>
         <member name="T:FileCabinetApp.IFileCabinetService">
             <summary>
