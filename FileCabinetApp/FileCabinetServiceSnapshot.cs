@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Xml.Serialization;
 using CsvHelper;
 
 namespace FileCabinetApp
@@ -44,7 +45,10 @@ namespace FileCabinetApp
         /// <param name="filePath">File path.</param>
         public void SaveToXml(string filePath)
         {
-            throw new NotImplementedException();
+            var xmlWriter = new XmlSerializer(typeof(FileCabinetRecord[]));
+            using var streamWriter = new StreamWriter(filePath);
+            xmlWriter.Serialize(streamWriter, this.records);
+            Console.WriteLine($"Snapshot was made and saved like xml-file.");
         }
     }
 }
