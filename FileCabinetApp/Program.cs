@@ -26,6 +26,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
+            new Tuple<string, Action<string>>("export", Export),
         };
 
         private static readonly string[][] HelpMessages = new string[][]
@@ -37,6 +38,7 @@ namespace FileCabinetApp
             new string[] { "list", "prints all records.", "The 'list' command prints all records." },
             new string[] { "edit", "edits record.", "The 'list' command edits record." },
             new string[] { "find [firstname/lastname/dateofbirth] [value]", "finds record by firstname/lastname/dateofbirth.", "The 'find' command finds record by firstname/lastname/dateofbirth." },
+            new string[] { "export [file extention] [file path]", "Makes and saves snapshot.", "The 'export' command makes and saves snapshot." },
         };
 
         private static IFileCabinetService fileCabinetService;
@@ -220,6 +222,18 @@ namespace FileCabinetApp
             {
                 Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Balance}, {record.SecurityCharacter}{record.SecurityNumber}, {record.PaymentSystem}, {record.Residency}, {record.CountryCode}.");
             }
+        }
+
+        private static void Export(string parameters)
+        {
+            if (parameters.Split(' ').Length != 2)
+            {
+                Console.WriteLine("Invalid export parameters.");
+            }
+
+            string fileExtention = parameters.Split(' ')[0];
+            string filePath = parameters.Split(' ')[1];
+            fileCabinetService.MakeSnapshot(fileExtention, filePath);
         }
 
         private static void Exit(string parameters)

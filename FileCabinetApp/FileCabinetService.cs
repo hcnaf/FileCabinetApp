@@ -129,5 +129,27 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
+
+        /// <summary>
+        /// Creates snapshot.
+        /// </summary>
+        /// <param name="fileExtention">File extention.</param>
+        /// <param name="filePath">File path.</param>
+        public void MakeSnapshot(string fileExtention, string filePath)
+        {
+            var snapshot = new FileCabinetServiceSnapshot(this.list.ToArray());
+            if (fileExtention.Equals("csv", StringComparison.InvariantCultureIgnoreCase))
+            {
+                snapshot.SaveToCsv(filePath);
+            }
+            else if (fileExtention.Equals("xml", StringComparison.InvariantCultureIgnoreCase))
+            {
+                snapshot.SaveToXml(filePath);
+            }
+            else
+            {
+                Console.WriteLine("Invalid file extention.");
+            }
+        }
     }
 }
