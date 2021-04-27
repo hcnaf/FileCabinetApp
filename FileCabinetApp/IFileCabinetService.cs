@@ -56,5 +56,12 @@ namespace FileCabinetApp
         /// </summary>
         /// <returns>number of records.</returns>
         int GetStat();
+
+        /// <summary>
+        /// Creates snapshot.
+        /// </summary>
+        /// <param name="fileExtention">Extention of file.</param>
+        /// <param name="filePath">File path.</param>
+        void MakeSnapshot(string fileExtention, string filePath);
     }
 }

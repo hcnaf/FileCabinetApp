@@ -210,6 +210,37 @@
             </summary>
             <returns>number of records.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetService.MakeSnapshot(System.String,System.String)">
+            <summary>
+            Creates snapshot.
+            </summary>
+            <param name="fileExtention">File extention.</param>
+            <param name="filePath">File path.</param>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetServiceSnapshot">
+            <summary>
+            Memento for FileCabinetService.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.#ctor(FileCabinetApp.FileCabinetRecord[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetServiceSnapshot"/> class.
+            Constuctor.
+            </summary>
+            <param name="records">Records to save.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.SaveToCsv(System.String)">
+            <summary>
+            Save to csv file method.
+            </summary>
+            <param name="filePath">File path.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.SaveToXml(System.String)">
+            <summary>
+            Save to xml file method.
+            </summary>
+            <param name="filePath">File path.</param>
+        </member>
         <member name="T:FileCabinetApp.IDataInput">
             <summary>
             Data input.
@@ -272,6 +303,13 @@
             Returns number of records.
             </summary>
             <returns>number of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.MakeSnapshot(System.String,System.String)">
+            <summary>
+            Creates snapshot.
+            </summary>
+            <param name="fileExtention">Extention of file.</param>
+            <param name="filePath">File path.</param>
         </member>
         <member name="T:FileCabinetApp.IRecordValidator">
             <summary>
