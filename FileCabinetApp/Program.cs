@@ -102,26 +102,67 @@ namespace FileCabinetApp
 
         private static void StartProgramWithParameters(string[] args)
         {
-            if (args[0].Equals("-v", StringComparison.InvariantCultureIgnoreCase) || args[0].Equals("--validation-rules", StringComparison.InvariantCultureIgnoreCase))
-            {
-                if (args[1].Equals("custom", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
-                    dataInput = new CustomDataInput();
-                    Console.WriteLine("Using custom validation rules.");
-                }
-                else
-                {
-                    fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
-                    dataInput = new DefaultDataInput();
-                    Console.WriteLine("Using default validation rules.");
-                }
-            }
-            else
+            if (args.Length % 2 != 0)
             {
                 fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                 dataInput = new DefaultDataInput();
+                Console.WriteLine("Invalid start parameters.");
                 Console.WriteLine("Using default validation rules.");
+            }
+
+            bool fileMode = false, customMode = false;
+
+            for (int i = 0; i < args.Length; i += 2)
+            {
+                if (args[i].Equals("-v", StringComparison.InvariantCultureIgnoreCase) ||
+                    args[i].Equals("--validation-rules", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (args[i + 1].Equals("custom", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        customMode = true;
+                    }
+                }
+
+                if (args[i].Equals("-s", StringComparison.InvariantCultureIgnoreCase) ||
+                         args[i].Equals("--storage", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (args[i + 1].Equals("file", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        fileMode = true;
+                    }
+                }
+            }
+
+            if (fileMode && customMode)
+            {
+                fileCabinetService = new FileCabinetFilesystemService(new CustomValidator());
+                dataInput = new CustomDataInput();
+                Console.WriteLine("File mode. Using custom validation rules.");
+                return;
+            }
+
+            if (!fileMode && customMode)
+            {
+                fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
+                dataInput = new CustomDataInput();
+                Console.WriteLine("RAM mode. Using default validation rules.");
+                return;
+            }
+
+            if (fileMode && !customMode)
+            {
+                fileCabinetService = new FileCabinetFilesystemService(new DefaultValidator());
+                dataInput = new CustomDataInput();
+                Console.WriteLine("File mode. Using default validation rules.");
+                return;
+            }
+
+            if (!fileMode && !customMode)
+            {
+                fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
+                dataInput = new CustomDataInput();
+                Console.WriteLine("RAM mode. Using default validation rules.");
+                return;
             }
         }
 
