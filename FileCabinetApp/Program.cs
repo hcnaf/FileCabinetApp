@@ -56,7 +56,7 @@ namespace FileCabinetApp
 #pragma warning disable CA1062 // Main parameters cannot be null.
             if (args.Length == 0)
             {
-                fileCabinetService = new FileCabinetService(new DefaultValidator());
+                fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                 dataInput = new DefaultDataInput();
                 Console.WriteLine("Using default validation rules.");
             }
@@ -106,20 +106,20 @@ namespace FileCabinetApp
             {
                 if (args[1].Equals("custom", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    fileCabinetService = new FileCabinetService(new CustomValidator());
+                    fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
                     dataInput = new CustomDataInput();
                     Console.WriteLine("Using custom validation rules.");
                 }
                 else
                 {
-                    fileCabinetService = new FileCabinetService(new DefaultValidator());
+                    fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                     dataInput = new DefaultDataInput();
                     Console.WriteLine("Using default validation rules.");
                 }
             }
             else
             {
-                fileCabinetService = new FileCabinetService(new DefaultValidator());
+                fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                 dataInput = new DefaultDataInput();
                 Console.WriteLine("Using default validation rules.");
             }

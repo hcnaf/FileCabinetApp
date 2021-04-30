@@ -11,7 +11,7 @@ namespace FileCabinetApp
     /// Cabinet Service class.
     /// Creating, editing, searching by firstname, lastname, date of birth, returning array of records, number of records.
     /// </summary>
-    public class FileCabinetService : IFileCabinetService
+    public class FileCabinetMemoryService : IFileCabinetService
     {
         private static readonly CultureInfo Culture = new CultureInfo("ru-RU");
 
@@ -23,10 +23,10 @@ namespace FileCabinetApp
         private readonly IRecordValidator validator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>
         /// <param name="validator">Default or custom validator.</param>
-        public FileCabinetService(IRecordValidator validator)
+        public FileCabinetMemoryService(IRecordValidator validator)
         {
             this.validator = validator;
         }
