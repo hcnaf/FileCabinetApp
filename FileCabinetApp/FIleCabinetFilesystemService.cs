@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FileCabinetApp
 {
-    class FIleCabinetFilesystemService : IFileCabinetService
+    public class FIleCabinetFilesystemService : IFileCabinetService
     {
         public int CreateRecord(FileCabinetRecord record)
         {
